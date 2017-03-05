@@ -1,0 +1,7 @@
+C:\GitRepository\Sharepoint\Sp.BackupLibrary\Vjb.Sp.BackupLibrary.UnitTest\obj\Debug\Vjb.Sp.BackupLibrary.UnitTest.csprojResolveAssemblyReference.cache
+C:\GitRepository\Sharepoint\Sp.BackupLibrary\Vjb.Sp.BackupLibrary.UnitTest\bin\Debug\Vjb.Sp.BackupLibrary.UnitTest.dll
+C:\GitRepository\Sharepoint\Sp.BackupLibrary\Vjb.Sp.BackupLibrary.UnitTest\bin\Debug\Vjb.Sp.BackupLibrary.UnitTest.pdb
+C:\GitRepository\Sharepoint\Sp.BackupLibrary\Vjb.Sp.BackupLibrary.UnitTest\bin\Debug\Vjb.Sp.BackupLibrary.exe
+C:\GitRepository\Sharepoint\Sp.BackupLibrary\Vjb.Sp.BackupLibrary.UnitTest\bin\Debug\Vjb.Sp.BackupLibrary.pdb
+C:\GitRepository\Sharepoint\Sp.BackupLibrary\Vjb.Sp.BackupLibrary.UnitTest\obj\Debug\Vjb.Sp.BackupLibrary.UnitTest.dll
+C:\GitRepository\Sharepoint\Sp.BackupLibrary\Vjb.Sp.BackupLibrary.UnitTest\obj\Debug\Vjb.Sp.BackupLibrary.UnitTest.pdb

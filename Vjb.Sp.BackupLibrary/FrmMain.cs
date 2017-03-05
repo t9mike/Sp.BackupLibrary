@@ -49,7 +49,7 @@ namespace Vjb.Sp.BackupLibrary
     {
         private static BackgroundWorker bw = new BackgroundWorker();
         private List<string> files;
-        
+        public SharepointClient SharepointClient;
         public FrmMain()
         {
             InitializeComponent();
@@ -63,82 +63,24 @@ namespace Vjb.Sp.BackupLibrary
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            tbOutput.AppendText("Running...\r\n");
-            var siteUrl = tbSiteUrl.Text;
-            var listName = tbSpLibrary.Text;
-            var userName = tbUserName.Text;
-            var password = tbPassword.Text;
 
+            if (SharepointClient == null)
+            {
+                Utilities.Utilities.ShowErrorMessage("Not logged in",
+                    "You are not connected to a Sharepoint site\r\nPlease log in from the menu and try again");
+                return;
+
+            }
+
+            tbOutput.AppendText("Running...\r\n");
+            var listName = tbSpLibrary.Text;
             var destinationFolder = tbTargetFolder.Text;
 
             bw.WorkerReportsProgress = true;
             bw.DoWork += doWork;
-            var libraryInfo = new LibraryInformation(siteUrl, listName, userName, password, destinationFolder);
+            var libraryInfo = new LibraryInformation(listName, destinationFolder, SharepointClient);
             bw.RunWorkerAsync(libraryInfo);
             bw.RunWorkerCompleted += bwCompleted;
-        }
-
-        private void bwCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (e.Error == null)
-            {
-                tbOutput.AppendText("\r\n\r\nFinished!");
-            }
-            else
-            {
-                tbOutput.AppendText(string.Format("\r\n\r\nFailure: {0}\r\n{1}", e.Error.Message, e.Error.StackTrace));
-            }
-            btnCopyToClipboard.Enabled = true;
-            btnCsv.Enabled = true;
-        }
-
-        private void doWork(object sender, DoWorkEventArgs e)
-        {
-            var libInfo = e.Argument as LibraryInformation;
-
-            if (libInfo == null) return;
-            List<string> result = new List<string>();
-            using (var sharepointClient = new SharepointClient(libInfo.SiteUrl, libInfo.UserName, libInfo.Password))
-            {
-                sharepointClient.OnProgressUpdate += sharepointClient_OnProgressUpdate;
-                sharepointClient.OnErrorHandler += sharepointClient_ErrorHandler;
-                var rootFolder = sharepointClient.GetRootFolder(libInfo.ListName);
-                var folders = sharepointClient.GetFolders(rootFolder);
-
-                sharepointClient.ProcessFolder(libInfo.DestinationFolder, rootFolder);
-            }
-        }
-
-        private void sharepointClient_ErrorHandler(Exception exception)
-        {
-            base.Invoke((Action)delegate
-            {
-                tbOutput.AppendText(string.Format("The operation failed: {}\r\nStacktrace: {}", exception.Message, exception.StackTrace));
-            });
-        }
-
-        private void sharepointClient_OnProgressUpdate(FileDownloadStatus status)
-        {
-            base.Invoke((Action)delegate
-            {
-                string message = string.Empty;
-                switch (status.FileType)
-                {
-                    case FileType.Folder:
-                        var output = string.Format("\r\nProcessing the folder '{0}', Folders: {1}, Files: {2}\r\n", status.FileName, status.FolderCount, status.FilesCount);
-                        message = string.Format("{0}{1}\r\n", output, new string('*', (output.Length) + 10));
-                        files.Add(string.Format("{0};{1};Folders: {2} Files: {3}", FileType.Folder, status.FileName, status.FolderCount, status.FilesCount));
-                        break;
-                    case FileType.File:
-                        message = string.Format("Downloading '{0}', to {1}", status.FileName, status.Destination);
-                        files.Add(string.Format("{0};{1};{2}", FileType.File, status.FileName, status.Destination));
-                        break;
-                }
-                if (!string.IsNullOrWhiteSpace(message))
-                {
-                    tbOutput.AppendText(message + "\r\n");
-                }
-            });
         }
 
         private void btnTarget_Click(object sender, EventArgs e)
@@ -177,24 +119,154 @@ namespace Vjb.Sp.BackupLibrary
             }
         }
 
+        private void connectToSharepointOnlineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (TryLogonSpSite(out SharepointClient))
+            {
+                SetConnectedStatus(true, SharepointClient.Url);
+                RefreshSiteList();
+                return;
+            }
+            SetConnectedStatus(false, string.Empty);
+        }
+
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmAboutBox ab = new frmAboutBox();
-            ab.ShowDialog();
+            using (var frmAbout = new frmAboutBox())
+            {
+                frmAbout.ShowDialog();
+            }
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            using (var sharepointClient = new SharepointClient(tbSiteUrl.Text, tbUserName.Text, tbPassword.Text))
+            if (SharepointClient == null)
             {
-                AutoCompleteStringCollection acsc = new AutoCompleteStringCollection();
-                tbSpLibrary.AutoCompleteCustomSource = acsc;
-                tbSpLibrary.AutoCompleteMode = AutoCompleteMode.Suggest;
-                tbSpLibrary.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                Utilities.Utilities.ShowErrorMessage("Not logged in",
+                    "You are not connected to a Sharepoint site\r\nPlease log in from the menu and try again");
+                return;
 
-                var libraries = sharepointClient.GetLibrarys();
-                acsc.AddRange(libraries);
+            }
+
+            RefreshSiteList();
+        }
+
+        # region Private Methods
+
+
+        private void RefreshSiteList()
+        {
+            AutoCompleteStringCollection acsc = new AutoCompleteStringCollection();
+            tbSpLibrary.AutoCompleteCustomSource = acsc;
+            tbSpLibrary.AutoCompleteMode = AutoCompleteMode.Suggest;
+            tbSpLibrary.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+            var libraries = SharepointClient.GetLibrarys();
+            acsc.AddRange(libraries);
+        }
+
+        private bool TryLogonSpSite(out SharepointClient sharepointClient)
+        {
+
+            using (var frmSpLogin = new frmSpLogin())
+            {
+                frmSpLogin.ShowDialog();
+
+                if (frmSpLogin.SharepointClient != null)
+                {
+                    sharepointClient = frmSpLogin.SharepointClient;
+                    return true;
+                }
+                sharepointClient = null;
+                return false;
             }
         }
+
+        public void SetConnectedStatus(bool connected, string url)
+        {
+            if (connected)
+            {
+                lblConnected.Text = "Connected";
+                lblConnected.ForeColor = Color.Green;
+
+                tbConnectedSpUrl.Text = string.Format("Site: {0}", url);
+                return;
+            }
+            lblConnected.Text = "Not Connected";
+            lblConnected.ForeColor = Color.Red;
+
+            tbConnectedSpUrl.Text = string.Empty;
+            return;
+        }
+
+        # endregion
+
+        # region backgroundworker
+
+        private void bwCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+                tbOutput.AppendText("\r\n\r\nFinished!");
+            }
+            else
+            {
+                tbOutput.AppendText(string.Format("\r\n\r\nFailure: {0}\r\n{1}", e.Error.Message, e.Error.StackTrace));
+            }
+            btnCopyToClipboard.Enabled = true;
+            btnCsv.Enabled = true;
+        }
+
+        private void doWork(object sender, DoWorkEventArgs e)
+        {
+            var libInfo = e.Argument as LibraryInformation;
+
+            if (libInfo == null) return;
+            List<string> result = new List<string>();
+
+            var sharepointClient = libInfo.SharepointClient;
+            sharepointClient.OnProgressUpdate += sharepointClient_OnProgressUpdate;
+            sharepointClient.OnErrorHandler += sharepointClient_ErrorHandler;
+            var rootFolder = sharepointClient.GetRootFolder(libInfo.ListName);
+            var folders = sharepointClient.GetFolders(rootFolder);
+
+            sharepointClient.ProcessFolder(libInfo.DestinationFolder, rootFolder);
+        }
+
+        private void sharepointClient_ErrorHandler(Exception exception)
+        {
+            base.Invoke((Action)delegate
+            {
+                tbOutput.AppendText(string.Format("The operation failed: {0}\r\nStacktrace: {1}", exception.Message, exception.StackTrace));
+            });
+        }
+
+
+        private void sharepointClient_OnProgressUpdate(FileDownloadStatus status)
+        {
+            base.Invoke((Action)delegate
+            {
+                string message = string.Empty;
+                switch (status.FileType)
+                {
+                    case FileType.Folder:
+                        var output = string.Format("\r\nProcessing the folder '{0}', Folders: {1}, Files: {2}\r\n", status.FileName, status.FolderCount, status.FilesCount);
+                        message = string.Format("{0}{1}\r\n", output, new string('*', (output.Length) + 10));
+                        files.Add(string.Format("{0};{1};Folders: {2} Files: {3}", FileType.Folder, status.FileName, status.FolderCount, status.FilesCount));
+                        break;
+                    case FileType.File:
+                        message = string.Format("Downloading '{0}', to {1}", status.FileName, status.Destination);
+                        files.Add(string.Format("{0};{1};{2}", FileType.File, status.FileName, status.Destination));
+                        break;
+                }
+                if (!string.IsNullOrWhiteSpace(message))
+                {
+                    tbOutput.AppendText(message + "\r\n");
+                }
+            });
+        }
+
+        # endregion
+
     }
 }

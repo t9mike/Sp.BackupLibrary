@@ -16,6 +16,10 @@ namespace Vjb.Sp.BackupLibrary.SpClient
         ClientContext _clientContext;
         Folder _rootFolder;
 
+        public string Url { get; private set; }
+        public string UserName { get; private set; }
+        public string Password { get; private set; }
+
         public delegate void ProgressUpdate(FileDownloadStatus status);
         public event ProgressUpdate OnProgressUpdate;
         public delegate void ErrorHandler(Exception exception);
@@ -27,6 +31,7 @@ namespace Vjb.Sp.BackupLibrary.SpClient
             {
                 _clientContext = new ClientContext(url);
                 _clientContext.Credentials = GetCredentials(userName, passWord);
+                Url = url;
             }
             catch (Exception exception)
             {
@@ -133,7 +138,7 @@ namespace Vjb.Sp.BackupLibrary.SpClient
 
                 var fileRef = file.ServerRelativeUrl;
                 var fileInfo = Microsoft.SharePoint.Client.File.OpenBinaryDirect(_clientContext, fileRef);
-                var fileName = string.Format("{filePath}\\{}", (string)file.Name);
+                var fileName = string.Format("{0}\\{1}", filePath, (string)file.Name);
 
                 var status = new FileDownloadStatus(FileType.File, file.Name, fileName);
                 OnProgressUpdate(status);

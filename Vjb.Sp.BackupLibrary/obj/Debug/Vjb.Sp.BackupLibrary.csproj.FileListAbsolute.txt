@@ -44,3 +44,4 @@ C:\GitRepository\Sharepoint\Sp.BackupLibrary\Vjb.Sp.BackupLibrary\bin\Debug\Micr
 C:\GitRepository\Sharepoint\Sp.BackupLibrary\Vjb.Sp.BackupLibrary\bin\Debug\Microsoft.SharePoint.Client.Taxonomy.dll
 C:\GitRepository\Sharepoint\Sp.BackupLibrary\Vjb.Sp.BackupLibrary\bin\Debug\Microsoft.SharePoint.Client.UserProfiles.dll
 C:\GitRepository\Sharepoint\Sp.BackupLibrary\Vjb.Sp.BackupLibrary\bin\Debug\Microsoft.SharePoint.Client.WorkflowServices.dll
+C:\GitRepository\Sharepoint\Sp.BackupLibrary\Vjb.Sp.BackupLibrary\obj\Debug\Vjb.Sp.BackupLibrary.frmSpLogin.resources

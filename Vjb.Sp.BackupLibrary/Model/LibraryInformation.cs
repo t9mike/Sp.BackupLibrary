@@ -1,20 +1,17 @@
-﻿namespace Vjb.Sp.BackupLibrary.Model
+﻿using Vjb.Sp.BackupLibrary.SpClient;
+namespace Vjb.Sp.BackupLibrary.Model
 {
     public class LibraryInformation
     {
-        public string SiteUrl { get; private set; }
         public string ListName { get; private set; }
-        public string UserName { get; private set; }
-        public string Password { get; private set; }
         public string DestinationFolder { get; private set; }
+        public SharepointClient SharepointClient { get; set; }
 
-        public LibraryInformation(string siteUrl, string listName, string userName, string password, string destinationFolder)
+        public LibraryInformation(string listName, string destinationFolder, SharepointClient sharePointClient)
         {
-            SiteUrl = siteUrl;
             ListName = listName;
-            UserName = userName;
-            Password = password;
             DestinationFolder = destinationFolder;
+            SharepointClient = sharePointClient;
         }
     }
 }
