@@ -133,7 +133,7 @@ namespace Vjb.Sp.BackupLibrary.SpClient
 
                 var fileRef = file.ServerRelativeUrl;
                 var fileInfo = Microsoft.SharePoint.Client.File.OpenBinaryDirect(_clientContext, fileRef);
-                var fileName = $"{filePath}\\{(string)file.Name}";
+                var fileName = string.Format("{filePath}\\{}", (string)file.Name);
 
                 var status = new FileDownloadStatus(FileType.File, file.Name, fileName);
                 OnProgressUpdate(status);

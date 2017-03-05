@@ -62,6 +62,8 @@
             // 
             // grpSiteInfo
             // 
+            this.grpSiteInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpSiteInfo.Controls.Add(this.btnRefresh);
             this.grpSiteInfo.Controls.Add(this.tbSpLibrary);
             this.grpSiteInfo.Controls.Add(this.label2);
@@ -76,6 +78,7 @@
             // 
             // btnRefresh
             // 
+            this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRefresh.Location = new System.Drawing.Point(476, 74);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
@@ -86,6 +89,8 @@
             // 
             // tbSpLibrary
             // 
+            this.tbSpLibrary.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tbSpLibrary.Location = new System.Drawing.Point(7, 76);
             this.tbSpLibrary.Name = "tbSpLibrary";
             this.tbSpLibrary.Size = new System.Drawing.Size(460, 20);
@@ -103,6 +108,8 @@
             // 
             // tbSiteUrl
             // 
+            this.tbSiteUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tbSiteUrl.Location = new System.Drawing.Point(7, 37);
             this.tbSiteUrl.Name = "tbSiteUrl";
             this.tbSiteUrl.Size = new System.Drawing.Size(544, 20);
@@ -133,7 +140,7 @@
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exitToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(35, 20);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(37, 20);
             this.toolStripMenuItem1.Text = "File";
             // 
             // exitToolStripMenuItem
@@ -150,18 +157,21 @@
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // tbOutput
             // 
+            this.tbOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tbOutput.Location = new System.Drawing.Point(0, 293);
             this.tbOutput.Multiline = true;
             this.tbOutput.Name = "tbOutput";
@@ -171,6 +181,7 @@
             // 
             // btnStart
             // 
+            this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnStart.Location = new System.Drawing.Point(485, 499);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 23);
@@ -181,6 +192,8 @@
             // 
             // tbTargetFolder
             // 
+            this.tbTargetFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tbTargetFolder.Location = new System.Drawing.Point(9, 259);
             this.tbTargetFolder.Name = "tbTargetFolder";
             this.tbTargetFolder.ReadOnly = true;
@@ -199,6 +212,7 @@
             // 
             // btnTarget
             // 
+            this.btnTarget.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnTarget.Location = new System.Drawing.Point(485, 257);
             this.btnTarget.Name = "btnTarget";
             this.btnTarget.Size = new System.Drawing.Size(75, 23);
@@ -209,6 +223,7 @@
             // 
             // btnExit
             // 
+            this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExit.AutoSize = true;
             this.btnExit.Location = new System.Drawing.Point(404, 499);
             this.btnExit.Name = "btnExit";
@@ -221,6 +236,7 @@
             // 
             // btnCopyToClipboard
             // 
+            this.btnCopyToClipboard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnCopyToClipboard.Enabled = false;
             this.btnCopyToClipboard.Location = new System.Drawing.Point(0, 499);
             this.btnCopyToClipboard.Name = "btnCopyToClipboard";
@@ -232,6 +248,7 @@
             // 
             // btnCsv
             // 
+            this.btnCsv.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnCsv.Enabled = false;
             this.btnCsv.Location = new System.Drawing.Point(117, 499);
             this.btnCsv.Name = "btnCsv";
@@ -252,6 +269,8 @@
             // 
             // tbUserName
             // 
+            this.tbUserName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tbUserName.Location = new System.Drawing.Point(9, 34);
             this.tbUserName.Name = "tbUserName";
             this.tbUserName.Size = new System.Drawing.Size(544, 20);
@@ -268,6 +287,8 @@
             // 
             // tbPassword
             // 
+            this.tbPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tbPassword.Location = new System.Drawing.Point(9, 73);
             this.tbPassword.Name = "tbPassword";
             this.tbPassword.PasswordChar = '*';
@@ -276,6 +297,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.tbPassword);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.tbUserName);

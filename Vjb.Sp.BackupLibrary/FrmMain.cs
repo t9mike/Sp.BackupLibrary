@@ -86,7 +86,7 @@ namespace Vjb.Sp.BackupLibrary
             }
             else
             {
-                tbOutput.AppendText($"\r\n\r\nFailure: {e.Error.Message}\r\n{e.Error.StackTrace}");
+                tbOutput.AppendText(string.Format("\r\n\r\nFailure: {0}\r\n{1}", e.Error.Message, e.Error.StackTrace));
             }
             btnCopyToClipboard.Enabled = true;
             btnCsv.Enabled = true;
@@ -113,7 +113,7 @@ namespace Vjb.Sp.BackupLibrary
         {
             base.Invoke((Action)delegate
             {
-                tbOutput.AppendText($"The operation failed: {exception.Message}\r\nStacktrace: {exception.StackTrace}");
+                tbOutput.AppendText(string.Format("The operation failed: {}\r\nStacktrace: {}", exception.Message, exception.StackTrace));
             });
         }
 
@@ -125,13 +125,13 @@ namespace Vjb.Sp.BackupLibrary
                 switch (status.FileType)
                 {
                     case FileType.Folder:
-                        var output = $"\r\nProcessing the folder '{status.FileName}', Folders: {status.FolderCount}, Files: {status.FilesCount}\r\n";
-                        message = $"{output}{new string('*', (output.Length) + 10)}\r\n";
-                        files.Add($"{FileType.Folder};{status.FileName};Folders: {status.FolderCount} Files: {status.FilesCount}");
+                        var output = string.Format("\r\nProcessing the folder '{0}', Folders: {1}, Files: {2}\r\n", status.FileName, status.FolderCount, status.FilesCount);
+                        message = string.Format("{0}{1}\r\n", output, new string('*', (output.Length) + 10));
+                        files.Add(string.Format("{0};{1};Folders: {2} Files: {3}", FileType.Folder, status.FileName, status.FolderCount, status.FilesCount));
                         break;
                     case FileType.File:
-                        message = $"Downloading '{status.FileName}', to {status.Destination}";
-                        files.Add($"{FileType.File};{status.FileName};{status.Destination}");
+                        message = string.Format("Downloading '{0}', to {1}", status.FileName, status.Destination);
+                        files.Add(string.Format("{0};{1};{2}", FileType.File, status.FileName, status.Destination));
                         break;
                 }
                 if (!string.IsNullOrWhiteSpace(message))
@@ -160,7 +160,7 @@ namespace Vjb.Sp.BackupLibrary
         {
             saveFileDialog1.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
             saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            saveFileDialog1.FileName = $"FileList_{tbSpLibrary.Text}.csv";
+            saveFileDialog1.FileName = string.Format("FileList_{0}.csv", tbSpLibrary.Text);
 
             var result = saveFileDialog1.ShowDialog();
             if (result == DialogResult.OK)
@@ -168,11 +168,11 @@ namespace Vjb.Sp.BackupLibrary
                 try
                 {
                     FileWriter.WriteToFile(files, saveFileDialog1.FileName);
-                    tbOutput.AppendText($"\r\nFile list saved to {saveFileDialog1.FileName}\r\n");
+                    tbOutput.AppendText(string.Format("\r\nFile list saved to {0}\r\n", saveFileDialog1.FileName));
                 }
                 catch (Exception exception)
                 {
-                    tbOutput.AppendText($"Could not save the file:{exception.Message}");
+                    tbOutput.AppendText(string.Format("Could not save the file:{0}", exception.Message));
                 }
             }
         }
